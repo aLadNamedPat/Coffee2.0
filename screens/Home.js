@@ -6,8 +6,7 @@ import axios from 'axios';
 
 
 // Root URL of API
-const rootURL = 'http://10.103.103.221:8080';
-// const rootURL = 'http://34.31.160.173';
+const rootURL = 'http://34.31.160.173';
 
 function Home() {
     const [text, setText] = useState('');
@@ -25,8 +24,10 @@ function Home() {
         setQuestions('');
         setSelectedTopics([]);
         
-        /* try {
+        var linkedinStringify = "";
+        try {
             console.log('Searching for:', text);
+            setLoadingInsights(true);
 
             var userId = text;
             if (text.charAt(text.length - 1) === '/') {
@@ -39,29 +40,23 @@ function Home() {
             // change it to get the linkedId from url
             const linkedinJSON = await axios.get(`http://api.scrapingdog.com/linkedin/`, {
                 params: {
-                    api_key: '6616acfe42ba6d448f5def89',
+                    api_key: '6619034e42ba6d448f5df425',
                     type: 'profile',
                     linkId: userId
                 }
             });
-            const linkedinStringify = JSON.stringify(linkedinJSON);
+            linkedinStringify = JSON.stringify(linkedinJSON);
             console.log({results: linkedinStringify});
             setLinkedinString(linkedinStringify);
-            console.log({results: linkedinString});
         } catch (error) {
             console.error("Error fetching linkedin data:", {error});
             // add something to show the user that the linkedin profile was not found
             return;
-        } */
+        }
 
-        const exp = `ExperienceExperienceInstitute for Systems Biology (ISB) logoResearch InternResearch InternInstitute for Systems Biology · InternshipInstitute for Systems Biology · InternshipAug 2022 - Dec 2023 · 1 yr 5 mosAug 2022 - Dec 2023 · 1 yr 5 mosHybridHybridWrite a program to compute metrics and read mass spectra, then select mass spectra for further analysis and write new data files with selected information under the domain of proteomics and mass spectrometry.Write a program to compute metrics and read mass spectra, then select mass spectra for further analysis and write new data files with selected information under the domain of proteomics and mass spectrometry.Data Modeling, Python (Programming Language) and +1 skillWASHINGTON STATE YOUTH SOCCER ASSOCIATION logoSoccer RefereeSoccer RefereeWASHINGTON STATE YOUTH SOCCER ASSOCIATION · Part-timeWASHINGTON STATE YOUTH SOCCER ASSOCIATION · Part-time2019 - Dec 2023 · 5 yrs2019 - Dec 2023 · 5 yrsBellevue, Washington, United States · On-siteBellevue, Washington, United States · On-siteSoccer referee in the greater Seattle area for U10-U19.Soccer referee in the greater Seattle area for U10-U19.AiGoLearning: Non-Profit for Teens Teach Kids logoEvaluator and InstructorEvaluator and InstructorAiGoLearning: Non-Profit for Teens Teach Kids · Part-timeAiGoLearning: Non-Profit for Teens Teach Kids · Part-time2020 - Aug 2023 · 3 yrs 8 mos2020 - Aug 2023 · 3 yrs 8 mosRemoteRemoteEvaluate new interested teachers and teaches programming languages.Evaluate new interested teachers and teaches programming languages.Team Co-CaptainTeam Co-CaptainFTC Team 11138 RoboEclipse · Part-timeFTC Team 11138 RoboEclipse · Part-time2014 - Feb 2023 · 9 yrs 2 mos2014 - Feb 2023 · 9 yrs 2 mosOn-siteOn-siteDean's List Finalist; Team captain and outreach lead, successfully qualified for World/State 6x consecutively, attachment driver, key CAD/software developer for root modeling and creating custom-designed partsDean's List Finalist; Team captain and outreach lead, successfully qualified for World/State 6x consecutively, attachment driver, key CAD/software developer for root modeling and creating custom-designed partsUniversity of Washington logoSummer Research InternSummer Research InternUniversity of Washington · InternshipUniversity of Washington · InternshipJul 2022 - Aug 2022 · 2 mosJul 2022 - Aug 2022 · 2 mosOn-siteOn-siteAssisted in data collection using Instron machine, modeled designs and set-ups in CAD (Fusion 360), and printed HSAs and other designs using Carbon, Nylon, and Ender 3D Printers.Assisted in data collection using Instron machine, modeled designs and set-ups in CAD (Fusion 360), and printed HSAs and other designs using Carbon, Nylon, and Ender 3D Printers.Research, Computer-Aided Design (CAD) and +2 skills`;
-        setLinkedinString(exp);
-
-        setLoadingInsights(true);
         try {
-            // Replace 'https://yourapi.com/search' with your actual API endpoint
             const response = await axios.post(`${rootURL}/insights`, {
-                linkedin_profile: exp
+                linkedin_profile: linkedinStringify
             });
             // Process your response data here
 
@@ -85,7 +80,7 @@ function Home() {
         scrollViewRef.current.scrollToEnd({ animated: true });
         try {
             // Replace 'https://yourapi.com/search' with your actual API endpoint
-            const combinedTopics = selectedTopics.join(',');
+            const combinedTopics = selectedTopics.join(',').trim();
             console.log(combinedTopics);
             const response = await axios.post(`${rootURL}/questions`, {
                 linkedin_profile: linkedinString,
